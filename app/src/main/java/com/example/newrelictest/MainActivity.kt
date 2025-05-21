@@ -37,9 +37,13 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            Snackbar.make(view, "Trigger NPE - Null Pointer Exception", Snackbar.LENGTH_LONG)
                 .setAction("Action", null)
                 .setAnchorView(R.id.fab).show()
+            lifecycleScope.launch {
+                delay(3000)
+                simulateNPE()
+            }
         }
 
         initNewrelic()
@@ -103,5 +107,17 @@ class MainActivity : AppCompatActivity() {
             "message" to message,
         )
         NewRelic.logAttributes(attributes as Map<String, Any>?)
+    }
+
+    private fun simulateNPE() {
+        val str: String? = null
+        str!!.length // Force NPE
+    }
+
+    private fun simulateOOM() {
+        val list = mutableListOf<ByteArray>()
+        while (true) {
+            list.add(ByteArray(10 * 1024 * 1024)) // Allocate 10MB each time
+        }
     }
 }

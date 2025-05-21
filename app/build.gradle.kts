@@ -30,11 +30,14 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -54,6 +57,8 @@ android {
 newrelic {
     // exclude debug build types and flavors
     logInstrumentationEnabled.set(false)
+    defaultInteractionsEnabled.set(false)
+    uploadMapsForVariant("release", "Release")
     excludePackageInstrumentation("com.android")
     excludePackageInstrumentation("com.github")
     excludePackageInstrumentation("com.google")
