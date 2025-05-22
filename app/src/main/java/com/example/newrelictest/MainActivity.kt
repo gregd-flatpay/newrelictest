@@ -110,6 +110,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun simulateNPE() {
+        android.util.Log.i("NewRelicTest", "simulateNPE")
         val str: String? = null
         str!!.length // Force NPE
     }
