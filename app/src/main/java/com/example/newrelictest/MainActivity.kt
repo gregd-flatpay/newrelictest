@@ -1,5 +1,7 @@
 package com.example.newrelictest
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import kotlinx.coroutines.delay
 import com.newrelic.agent.android.FeatureFlag
@@ -23,6 +25,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private var testLoggingActive = true
+    private lateinit var sharedPreferences: SharedPreferences
+    
+    companion object {
+        private const val PREFS_NAME = "NewRelicTestPrefs"
+        private const val KEY_LOG_COUNTER = "log_counter"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,18 +55,24 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+
         initNewrelic()
 
         lifecycleScope.launch {
-            var counter = 1
+            var counter = loadCounter()
             while (true) {
                 val ms = Random.nextInt(10, 100)
                 delay(ms.milliseconds)
+                if (!testLoggingActive) {
+                    continue
+                }
                 val charCount = Random.nextInt(50, 500)
                 val message = "$counter: foobar ${"_".repeat(charCount)}"
                 android.util.Log.i("nr_test", message)
                 logToNR(message)
                 counter++
+                saveCounter(counter)
             }
         }
     }
@@ -110,7 +125,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun simulateNPE() {
-        android.util.Log.i("NewRelicTest", "simulateNPE")
+        android.util.Log.i("NewRelicTest", "simulateNPE 123")
+        android.util.Log.i("NewRelicTest", "simulateNPE 456")
         val str: String? = null
         str!!.length // Force NPE
     }
@@ -120,5 +136,23 @@ class MainActivity : AppCompatActivity() {
         while (true) {
             list.add(ByteArray(10 * 1024 * 1024)) // Allocate 10MB each time
         }
+    }
+
+    fun toggleLogging() {
+        testLoggingActive = !testLoggingActive
+    }
+
+    fun isLoggingActive(): Boolean {
+        return testLoggingActive
+    }
+
+    private fun loadCounter(): Int {
+        return sharedPreferences.getInt(KEY_LOG_COUNTER, 1)
+    }
+
+    private fun saveCounter(counter: Int) {
+        sharedPreferences.edit()
+            .putInt(KEY_LOG_COUNTER, counter)
+            .apply()
     }
 }

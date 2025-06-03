@@ -35,6 +35,23 @@ class FirstFragment : Fragment() {
         binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
+
+        binding.buttonLoggingToggle.setOnClickListener {
+            val mainActivity = requireActivity() as MainActivity
+            mainActivity.toggleLogging()
+            updateButtonText()
+        }
+
+        updateButtonText()
+    }
+
+    private fun updateButtonText() {
+        val mainActivity = requireActivity() as MainActivity
+        binding.buttonLoggingToggle.text = if (mainActivity.isLoggingActive()) {
+            "Pause Logging"
+        } else {
+            "Resume Logging"
+        }
     }
 
     override fun onDestroyView() {

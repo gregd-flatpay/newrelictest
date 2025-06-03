@@ -1,5 +1,8 @@
 pluginManagement {
     repositories {
+        maven {
+            url = uri("https://oss.sonatype.org/content/repositories/comnewrelic-3506")
+        }
         google {
             content {
                 includeGroupByRegex("com\\.android.*")
@@ -14,6 +17,9 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        maven {
+            url = uri("https://oss.sonatype.org/content/repositories/comnewrelic-3506")
+        }
         google()
         mavenCentral()
     }

@@ -10,7 +10,7 @@ material = "1.12.0"
 constraintlayout = "2.2.1"
 navigationFragmentKtx = "2.9.0"
 navigationUiKtx = "2.9.0"
-newrelicVersion = "7.6.6"
+newrelicVersion = "7.6.6_LOGFIX"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
