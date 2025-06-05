@@ -1,7 +1,7 @@
 pluginManagement {
     repositories {
         maven {
-            url = uri("https://oss.sonatype.org/content/repositories/comnewrelic-3506")
+            url = uri("https://oss.sonatype.org/content/repositories/comnewrelic-3512")
         }
         google {
             content {
@@ -18,7 +18,7 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         maven {
-            url = uri("https://oss.sonatype.org/content/repositories/comnewrelic-3506")
+            url = uri("https://oss.sonatype.org/content/repositories/comnewrelic-3512")
         }
         google()
         mavenCentral()
