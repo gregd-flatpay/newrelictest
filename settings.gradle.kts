@@ -1,8 +1,5 @@
 pluginManagement {
     repositories {
-        maven {
-            url = uri("https://oss.sonatype.org/content/repositories/comnewrelic-3512")
-        }
         google {
             content {
                 includeGroupByRegex("com\\.android.*")
